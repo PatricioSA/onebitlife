@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import DefaultButton from '../../components/common/defaultButton';
+import ExplanationCard from '../../components/Explanation/explanationCard';
 
 export default function AppExplanation() {
 
@@ -10,12 +11,13 @@ export default function AppExplanation() {
     }
 
     return (
-        <View style={StyleSheet.container}>
+        <View style={styles.container}>
             <ScrollView>
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={StyleSheet.title}>
+                    <Text style={styles.title}>
                         Antes, deixa {'\n'} eu te explicar...
                     </Text>
+                    <ExplanationCard/>
                     <Text style={styles.descriptionCta}>
                         Pronto(a) para subir de nível na vida?
                     </Text>
@@ -23,12 +25,12 @@ export default function AppExplanation() {
                         Na próxima tela você vai poder escolher {'\n'} seus 4 hábitos de
                         foma individual.
                     </Text>
-                    <DefaultButton>
+                    <DefaultButton
                         buttonText={'Continuar'}
                         handlePress={handleSetShowHome}
                         width={250}
                         height={50}
-                    </DefaultButton>
+                    />
                 </View>
             </ScrollView>
         </View>
