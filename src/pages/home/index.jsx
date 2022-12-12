@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import LifeStatus from '../../components/common/lifeStatus';
+import StatusBar from "../../components/home/statusBar";
 
 export default function Home() {
     const navigation = useNavigation();
@@ -18,6 +19,8 @@ export default function Home() {
                     <Text style={styles.dailyChecks}>❤️ 20 dias - ✔️ 80 checks</Text>
 
                     <LifeStatus />
+
+                    <StatusBar/>
                 </View>
 
                 <Text
