@@ -27,7 +27,10 @@ export default function Home() {
 
                     <StatusBar/>
 
-                    <CreateHabit habitArea={Mente} borderColor='#90B7F3'/>
+                    <CreateHabit habitArea={'Mente'} borderColor='#90B7F3'/>
+                    <CreateHabit habitArea={'Financeiro'} borderColor='#85BB65'/>
+                    <CreateHabit habitArea={'Corpo'} borderColor='#FF0044'/>
+                    <CreateHabit habitArea={'Humor'} borderColor='#FE7F23'/>
                 </View>
 
                 <Text
