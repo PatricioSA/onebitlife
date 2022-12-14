@@ -1,11 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
+import habitsData from "../../../database/habitsData";
 
-export default function SelectHabit({habit, habitInput}) {
-    return(
+export default function SelectHabit({ habit, habitInput }) {
+
+    const [selected, setSelected] = useState(
+        habit.habitName ? habit.habitName : '-'
+    );
+
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        if (habit.habitArea === 'Mente') {
+            setData(habitsData.dataMind);
+        }
+        if (habit.habitArea === 'Financeiro') {
+            setData(habitsData.dataMoney);
+        }
+        if (habit.habitArea === 'Corpo') {
+            setData(habitsData.dataBody);
+        }
+        if (habit.habitArea === 'Humor') {
+            setData(habitsData.dataFun);
+        }
+        habitInput(habit.habitName ? habit.habitName : undefined);
+    })
+    return (
         <>
-        
+            <SelectList
+                setSelected={setSelected}
+                data={data}
+                search={false}
+                onSelect={() => {
+                    habitInput(selected);
+                }}
+                boxStyles={styles.boxStyles}
+                inputStyles={styles.inputStyles}
+                dropdownStyles={styles.dropdownStyles}
+                dropdownItemStyles={styles.dropdownItemStyles}
+                dropdownTextStyles={styles.dropdownTextStyles}
+                arrowicon={
+                    <Image
+                        source={require('../../../assets/icons/arrowDropdown.png')}
+                        style={styles.arrow}
+                    />
+                }
+            />
         </>
     );
 };
+
+const styles = StyleSheet.create({
+    boxStyles: {
+        borderWidth: 1,
+        borderColor: 'white',
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+    },
+
+    inputStyles: {
+        color: 'white',
+    },
+
+    dropdownStyles: {
+        borderWidth: 0,
+    },
+
+    dropdownItemStyles: {
+        borderWidth: 1,
+        borderColor: '#BBBBBB',
+        borderRadius: 10,
+        marginBottom: 15,
+    },
+
+    dropdownTextStyles: {
+        color: '#BBBBBB',
+    },
+
+    arrow: {
+        width: 20,
+        height: 20,
+    },
+})
