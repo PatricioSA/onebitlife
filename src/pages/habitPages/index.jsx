@@ -1,15 +1,17 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import SelectHabit from "../../components/habitPages/SelectHabits";
+import SelectFrequency from "../../components/habitPages/SelectFrequency";
 
-export default function HabitPage({route}) {
+export default function HabitPage({ route }) {
 
     const navigation = useNavigation();
     const [habitInput, setHabitInput] = useState();
+    const [frequencyInput, setFrequencyInput] = useState();
 
-    const {create, habit} = route.params;
+    const { create, habit } = route.params;
 
     return (
         <View style={styles.container}>
@@ -32,7 +34,13 @@ export default function HabitPage({route}) {
                         </View>
 
                         <Text style={styles.inputText}>Hábito</Text>
-                        <SelectHabit habit={habit} habitInput={setHabitInput}/>
+                        <SelectHabit habit={habit} habitInput={setHabitInput} />
+
+                        <Text style={styles.inputText}>Frequência</Text>
+                        <SelectFrequency
+                            habitFrequency={habit.habitFrequency}
+                            frequencyInput={setFrequencyInput}
+                        />
                     </View>
                 </View>
             </ScrollView>
@@ -87,6 +95,6 @@ const styles = StyleSheet.create({
 
     area: {
         color: '#BBBBBB',
-        fontSize: 15,        
+        fontSize: 15,
     }
 });
