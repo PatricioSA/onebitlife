@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, Platform, Image } from "react-native";
 import DataTimePiccker from '@react-native-community/datetimepicker';
+import { SelectList } from "react-native-dropdown-select-list";
 
-export default function TimeDatePicker({ frequency, dayNotification, timeNotification, setDayNotifixation, setTimeNotification, }) {
+export default function TimeDatePicker({ frequency, dayNotification, timeNotification, setDayNotification, setTimeNotification, }) {
 
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
@@ -11,6 +12,47 @@ export default function TimeDatePicker({ frequency, dayNotification, timeNotific
 
     const [noticationDate, setNotificationDate] = useState();
     const [noticationTime, setNotificationTime] = useState();
+
+    const onChange = (_, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+
+        let tempDate = new Date(currentDate);
+
+        const notificationHour = tempDate.getHours().toString().padStart(2, '0');
+        const notificationMin = tempDate.getMinutes().toString().padStart(2, '0');
+
+        let dateNotification;
+
+        if (frequency === 'Semanal') {
+            dateNotification = selected;
+        }
+
+        const timeNotification = `${notificationHour}:${notificationMin}`;
+
+        setNotificationDate(dateNotification);
+        setNotificationTime(timeNotification)
+
+        if (frequency === 'Diário') {
+            setDayNotification('Diário')
+        } else {
+            setDayNotification(dateNotification)
+        }
+        setTimeNotification(timeNotification)
+    };
+
+    const showMode = (currentMode) => {
+        setShow(true)
+        setMode(currentMode)
+    };
+
+    useEffect(() => {
+        if (dayNotification && timeNotification) {
+            setNotificationDate(dayNotification)
+            setNotificationTime(timeNotification)
+        }
+    }, []);
 
     const data = [
         { key: 'Domingo', value: 'Dom' },
@@ -24,6 +66,25 @@ export default function TimeDatePicker({ frequency, dayNotification, timeNotific
 
     return (
         <View>
+            {frequency === 'Semanal' ? (
+                <SelectList
+                    data={data}
+                    search={false}
+                    setSelected={setSelected}
+                    onSelect={() => { onChange }}
+                    boxStyles={styles.boxStyle}
+                    inputStyles={styles.inputStyle}
+                    dropdownStyles={styles.dropdownStyle}
+                    dropdownItemStyles={styles.dropdownItemStyle}
+                    dropdownTextStyles={styles.dropdownTextStyle}
+                    arrowicon={
+                        <Image
+                            source={require('../../../assets/icons/arrowDropdown.png')}
+                            style={styles.arrow}
+                        />
+                    }
+                />
+            ) : null}
             <TouchableOpacity style={styles.button} onPress={() => showMode('time')}>
                 <Text style={styles.buttonText}>Selecione a hora</Text>
             </TouchableOpacity>
@@ -79,5 +140,37 @@ const styles = StyleSheet.create({
     notificationText: {
         fontSize: 18,
         color: 'white',
+        fontWeight: 'bold',
+    },
+
+    boxStyle: {
+        borderWidth: 1,
+        borderColor: 'White',
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+    },
+
+    arrow: {
+        width: 20,
+        height: 20,
+    },
+
+    inputStyle: {
+        color: 'white',
+    },
+
+    dropdownStyle: {
+        borderWidth: 0,
+    },
+
+    dropdownItemStyle: {
+        borderWidth: 1,
+        borderColor: '#BBBB',
+        borderRadius: 10,
+        marginBottom: 15,
+    },
+
+    dropdownTextStyle: {
+        color: '#BBBBBB',
     },
 })
